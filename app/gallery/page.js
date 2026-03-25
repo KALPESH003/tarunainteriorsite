@@ -9,7 +9,7 @@ import { galleryMedia } from '@/data/galleryData';
 
 const customEase = [0.16, 1, 0.3, 1];
 
-export default function FullGallery() {
+export default function fullgallery() {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
 

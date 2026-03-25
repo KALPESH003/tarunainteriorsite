@@ -20,14 +20,14 @@ const playfair = Playfair_Display({
 // 2. Global SEO Metadata
 // This ensures your client's site looks highly professional on Google and WhatsApp
 export const metadata = {
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL('https://tarunainteriors.netlify.app'),
   title: 'Taruna Interiors', 
   description: 'Designing spaces that reflect you. Elegant, functional interiors crafted with precision, creativity, and a profound understanding of modern luxury living.',
   keywords: ['Taruna Interiors','Best interior designers in Vadodara', 'Top interior designers in Vadodara', 'Luxury Interior Design', 'Vadodara Interiors', 'Bespoke Design', 'Pan India'],
   openGraph: {
     title: 'Taruna Interiors',
     description: 'Redefining the art of living through bespoke interior solutions.',
-    url: 'https://tarunainterior.com',
+    url: 'https://tarunainteriors.netlify.app',
     siteName: 'Taruna Interiors',
     images: [
       {
