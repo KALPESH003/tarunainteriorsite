@@ -64,6 +64,57 @@ export const projects = [
       'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1200&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1200&auto=format&fit=crop'
     ]
+  },
+  {
+    id: 'the-brew-house',
+    title: 'The Brew House',
+    category: 'Hospitality',
+    client: 'Urban Cafe Co.',
+    location: 'Vadodara, Gujarat',
+    year: '2023',
+    area: '2,800 sq ft',
+    scope: 'Interior Design & Custom Furniture',
+    description: 'An artisanal coffee shop designed with a warm, earthy palette. We utilized exposed brick, warm oak woods, and industrial pendant lighting to create an inviting atmosphere that encourages both social gathering and focused remote work.',
+    mainImage: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1920&auto=format&fit=crop',
+    gallery: [
+      'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1200&auto=format&fit=crop'
+    ]
+  },
+  {
+    id: 'nexus-tech-hub',
+    title: 'Nexus Tech Hub',
+    category: 'Corporate Workspace',
+    client: 'Nexus Technologies',
+    location: 'Gandhinagar, Gujarat',
+    year: '2022',
+    area: '12,500 sq ft',
+    scope: 'Workspace Architecture & Interior',
+    description: 'A forward-thinking corporate office designed for collaboration and deep work. The layout features seamless glass partitions, acoustic sound-dampening panels, and biophilic design elements with indoor greenery to boost employee wellbeing.',
+    mainImage: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920&auto=format&fit=crop',
+    gallery: [
+      'https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1505409859467-3a796fd5798e?q=80&w=1200&auto=format&fit=crop'
+    ]
+  },
+  {
+    id: 'aura-oasis-villa',
+    title: 'Aura Oasis Villa',
+    category: 'Premium Residential',
+    client: 'Private Residence',
+    location: 'Rajkot, Gujarat',
+    year: '2024',
+    area: '9,500 sq ft',
+    scope: 'Architectural Planning & Turnkey Interior',
+    description: 'A luxurious minimalist villa focusing on natural light and seamless indoor-outdoor transitions. We integrated custom marble flooring, floating staircases, and a neutral color palette to create a serene, timeless living environment.',
+    mainImage: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1920&auto=format&fit=crop',
+    gallery: [
+      'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1200&auto=format&fit=crop'
+    ]
   }
 ];
 

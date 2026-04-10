@@ -85,6 +85,7 @@ export default function OwnerProfile() {
                 alt="Founder Portrait" 
                 fill
                 className="object-cover grayscale brightness-90 group-hover:grayscale-0 group-hover:brightness-110 transition-all duration-700"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           </div>

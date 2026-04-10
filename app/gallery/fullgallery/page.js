@@ -1,20 +1,10 @@
-import { projects } from '@/data/projects';
-import FullProjectGalleryClient from './FullProjectGalleryClient';
-import { notFound } from 'next/navigation';
+import FullGalleryClient from './FullGalleryClient';
 
-export async function generateStaticParams() {
-  return projects.map((project) => ({
-    id: project.id,
-  }));
-}
+export const metadata = {
+  title: 'Visual Archive | Taruna Interiors',
+  description: 'A comprehensive collection of our interior spaces and architectural details.',
+};
 
-export default function FullProjectGalleryPage({ params }) {
-  const { id } = params;
-  const project = projects.find((p) => p.id === id);
-
-  if (!project) {
-    notFound();
-  }
-
-  return <FullProjectGalleryClient project={project} />;
+export default function FullGalleryPage() {
+  return <FullGalleryClient />;
 }

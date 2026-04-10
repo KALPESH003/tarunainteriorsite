@@ -4,12 +4,12 @@ const InquirySchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String },
-  projectType: { type: String },
-  message: { type: String },
+  service: { type: String }, // Changed from projectType to match the form
+  message: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 
-// This checks if the model exists before creating a new one (important for Next.js HMR)
+// Important for Next.js: Check if model already exists
 const Inquiry = mongoose.models.Inquiry || mongoose.model('Inquiry', InquirySchema);
 
-export default Inquiry; // This fixes the "Export default doesn't exist" error
+export default Inquiry;

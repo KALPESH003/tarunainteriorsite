@@ -1,6 +1,4 @@
 import { notFound } from 'next/navigation';
-
-// NOTE: If this import fails, change it to: import { projects } from '../../../data/projects';
 import { projects } from '@/data/projects'; 
 import ProjectClient from './ProjectClient';
 
@@ -11,7 +9,6 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  // 1. Await the params in newer Next.js versions
   const { id } = await params; 
   const project = projects.find((p) => p.id === id);
   
@@ -24,12 +21,11 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProjectDetail({ params }) {
-  // 2. Await the params here too!
   const { id } = await params;
   const project = projects.find((p) => p.id === id);
 
   if (!project) {
-    notFound(); // This triggers your cinematic 404 if the ID is wrong
+    notFound(); 
   }
 
   return <ProjectClient project={project} />;

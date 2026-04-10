@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Send, CheckCircle2 } from 'lucide-react';
+import { submitInquiry } from '@/actions/contact'; 
 
 export default function ContactForm() {
   const [isClient, setIsClient] = useState(false);
@@ -15,6 +16,7 @@ export default function ContactForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     setIsClient(true);
@@ -24,16 +26,34 @@ export default function ContactForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage('');
     
-    setTimeout(() => {
+    // Grab the data directly from the HTML form using the name attributes
+    const formDataObj = new FormData(e.target);
+
+    try {
+      const response = await submitInquiry(formDataObj);
+      
+      if (response.success) {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+        // Clear the form fields
+        setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+        
+        // Reset the success state after 5 seconds
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        setIsSubmitting(false);
+        setErrorMessage(response.message);
+      }
+    } catch (error) {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1500);
+      // Helpful hint for the specific network errors you've been seeing
+      setErrorMessage('Network connection failed. If you are on a restricted Wi-Fi, please try a mobile hotspot.');
+    }
   };
 
   return (
@@ -81,7 +101,7 @@ export default function ContactForm() {
               </div>
               <div>
                 <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-gray-500 mb-1">Email</p>
-                <a href="mailto:hello@tarunainterior.com" className="text-lg text-white font-serif tracking-wide group-hover:text-brand-blue transition-colors">hello@tarunainterior.com</a>
+                <a href="mailto:tarunainteriorgallary@gmail.com" className="text-lg text-white font-serif tracking-wide group-hover:text-brand-blue transition-colors">tarunainteriorgallary@gmail.com</a>
               </div>
             </div>
 
@@ -109,7 +129,6 @@ export default function ContactForm() {
         >
           <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
             
-            {/* We only render the form content once the client is ready to avoid extension-induced mismatches */}
             {isClient ? (
               <form onSubmit={handleSubmit} className="flex flex-col gap-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -160,13 +179,13 @@ export default function ContactForm() {
                       value={formData.service}
                       onChange={handleChange}
                       required
-                      className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-gray-600 focus:text-white focus:outline-none focus:border-brand-blue transition-colors appearance-none cursor-pointer peer"
+                      className={`w-full bg-transparent border-b border-white/20 py-3 text-[15px] focus:outline-none focus:border-brand-blue transition-colors appearance-none cursor-pointer peer ${formData.service ? 'text-white' : 'text-gray-600'}`}
                     >
                       <option value="" disabled hidden>Select Service</option>
-                      <option value="residential" className="bg-[#121212] text-white">Residential Design</option>
-                      <option value="commercial" className="bg-[#121212] text-white">Commercial Space</option>
-                      <option value="turnkey" className="bg-[#121212] text-white">Turnkey Execution</option>
-                      <option value="consultation" className="bg-[#121212] text-white">Design Consultation</option>
+                      <option value="Residential Design" className="bg-[#121212] text-white">Residential Design</option>
+                      <option value="Commercial Space" className="bg-[#121212] text-white">Commercial Space</option>
+                      <option value="Turnkey Execution" className="bg-[#121212] text-white">Turnkey Execution</option>
+                      <option value="Design Consultation" className="bg-[#121212] text-white">Design Consultation</option>
                     </select>
                     <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
                   </div>
@@ -185,13 +204,19 @@ export default function ContactForm() {
                   <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
                 </div>
 
+                {errorMessage && (
+                  <motion.p initial={{opacity:0}} animate={{opacity:1}} className="text-red-400 text-sm font-medium">
+                    {errorMessage}
+                  </motion.p>
+                )}
+
                 <button 
                   type="submit" 
                   disabled={isSubmitting || isSubmitted}
                   className={`group relative flex items-center justify-center gap-3 w-full md:w-auto md:self-start px-10 py-4 rounded-full text-[12px] font-bold tracking-[0.2em] uppercase transition-all duration-500 overflow-hidden border ${
                     isSubmitted 
                       ? 'bg-green-500/10 border-green-500 text-green-400 cursor-default' 
-                      : 'bg-white/5 border-white/20 text-white hover:bg-brand-blue hover:border-brand-blue hover:shadow-[0_15px_30px_rgba(67,24,255,0.3)] hover:-translate-y-1'
+                      : 'bg-white/5 border-white/20 text-white hover:bg-brand-blue hover:border-brand-blue hover:shadow-[0_15px_30px_rgba(35,42,139,0.3)] hover:-translate-y-1'
                   }`}
                 >
                   {!isSubmitted && (
@@ -222,16 +247,25 @@ export default function ContactForm() {
         </motion.div>
 
       </div>
+      
+      {/* Custom Shimmer Effect Animation */}
+      <style jsx>{`
+        @keyframes shimmer {
+          100% { transform: translateX(100%); }
+        }
+      `}</style>
     </section>
   );
 }
 
+
 // 'use client';
-// import { useState } from 'react';
+// import { useState, useEffect } from 'react';
 // import { motion } from 'framer-motion';
 // import { Phone, Mail, MapPin, Send, CheckCircle2 } from 'lucide-react';
 
 // export default function ContactForm() {
+//   const [isClient, setIsClient] = useState(false);
 //   const [formData, setFormData] = useState({
 //     name: '',
 //     email: '',
@@ -239,9 +273,13 @@ export default function ContactForm() {
 //     service: '',
 //     message: ''
 //   });
-  
+
 //   const [isSubmitting, setIsSubmitting] = useState(false);
 //   const [isSubmitted, setIsSubmitted] = useState(false);
+
+//   useEffect(() => {
+//     setIsClient(true);
+//   }, []);
 
 //   const handleChange = (e) => {
 //     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -251,21 +289,16 @@ export default function ContactForm() {
 //     e.preventDefault();
 //     setIsSubmitting(true);
     
-//     // Simulate a network request (replace this with your actual form submission API later)
 //     setTimeout(() => {
 //       setIsSubmitting(false);
 //       setIsSubmitted(true);
 //       setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-      
-//       // Reset success message after 5 seconds
 //       setTimeout(() => setIsSubmitted(false), 5000);
 //     }, 1500);
 //   };
 
 //   return (
 //     <section id="contact" className="bg-[#0a0a0a] py-32 px-6 md:px-12 relative z-20 w-full overflow-hidden border-t border-white/5">
-      
-//       {/* Abstract Background Elements */}
 //       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-blue/5 blur-[150px] rounded-full pointer-events-none z-0 translate-x-1/3 -translate-y-1/3" />
 
 //       <div className="max-w-[1300px] mx-auto relative z-10 flex flex-col lg:flex-row gap-16 lg:gap-24">
@@ -309,7 +342,7 @@ export default function ContactForm() {
 //               </div>
 //               <div>
 //                 <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-gray-500 mb-1">Email</p>
-//                 <a href="mailto:hello@tarunainterior.com" className="text-lg text-white font-serif tracking-wide group-hover:text-brand-blue transition-colors">hello@tarunainterior.com</a>
+//                 <a href="mailto:tarunainteriorgallary@gmail.com" className="text-lg text-white font-serif tracking-wide group-hover:text-brand-blue transition-colors">tarunainteriorgallary@gmail.com</a>
 //               </div>
 //             </div>
 
@@ -336,110 +369,116 @@ export default function ContactForm() {
 //           className="w-full lg:w-[55%]"
 //         >
 //           <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
-//             <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-              
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+//             {/* We only render the form content once the client is ready to avoid extension-induced mismatches */}
+//             {isClient ? (
+//               <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+//                   <div className="relative group">
+//                     <input 
+//                       type="text" 
+//                       name="name"
+//                       value={formData.name}
+//                       onChange={handleChange}
+//                       required
+//                       placeholder="Your Name" 
+//                       className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-white focus:outline-none focus:border-brand-blue transition-colors placeholder-gray-600 peer"
+//                     />
+//                     <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
+//                   </div>
+                  
+//                   <div className="relative group">
+//                     <input 
+//                       type="email" 
+//                       name="email"
+//                       value={formData.email}
+//                       onChange={handleChange}
+//                       required
+//                       placeholder="Email Address" 
+//                       className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-white focus:outline-none focus:border-brand-blue transition-colors placeholder-gray-600 peer"
+//                     />
+//                     <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
+//                   </div>
+//                 </div>
+
+//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+//                   <div className="relative group">
+//                     <input 
+//                       type="tel" 
+//                       name="phone"
+//                       value={formData.phone}
+//                       onChange={handleChange}
+//                       required
+//                       placeholder="Phone Number" 
+//                       className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-white focus:outline-none focus:border-brand-blue transition-colors placeholder-gray-600 peer"
+//                     />
+//                     <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
+//                   </div>
+                  
+//                   <div className="relative group">
+//                     <select 
+//                       name="service"
+//                       value={formData.service}
+//                       onChange={handleChange}
+//                       required
+//                       className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-gray-600 focus:text-white focus:outline-none focus:border-brand-blue transition-colors appearance-none cursor-pointer peer"
+//                     >
+//                       <option value="" disabled hidden>Select Service</option>
+//                       <option value="residential" className="bg-[#121212] text-white">Residential Design</option>
+//                       <option value="commercial" className="bg-[#121212] text-white">Commercial Space</option>
+//                       <option value="turnkey" className="bg-[#121212] text-white">Turnkey Execution</option>
+//                       <option value="consultation" className="bg-[#121212] text-white">Design Consultation</option>
+//                     </select>
+//                     <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
+//                   </div>
+//                 </div>
+
 //                 <div className="relative group">
-//                   <input 
-//                     type="text" 
-//                     name="name"
-//                     value={formData.name}
+//                   <textarea 
+//                     name="message"
+//                     value={formData.message}
 //                     onChange={handleChange}
 //                     required
-//                     placeholder="Your Name" 
-//                     className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-white focus:outline-none focus:border-brand-blue transition-colors placeholder-gray-600 peer"
+//                     rows="4"
+//                     placeholder="Tell us about your project..." 
+//                     className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-white focus:outline-none focus:border-brand-blue transition-colors placeholder-gray-600 resize-none peer"
 //                   />
 //                   <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
 //                 </div>
-                
-//                 <div className="relative group2"suppressHydrationWarning>
-//                   <input 
-//                     type="email" 
-//                     name="email"
-//                     value={formData.email}
-//                     onChange={handleChange}
-//                     required
-//                     placeholder="Email Address" 
-//                     className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-white focus:outline-none focus:border-brand-blue transition-colors placeholder-gray-600 peer"
-//                   />
-//                   <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
-//                 </div>
-//               </div>
 
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-//                 <div className="relative group3">
-//                   <input 
-//                     type="tel" 
-//                     name="phone"
-//                     value={formData.phone}
-//                     onChange={handleChange}
-//                     required
-//                     placeholder="Phone Number" 
-//                     className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-white focus:outline-none focus:border-brand-blue transition-colors placeholder-gray-600 peer"
-//                   />
-//                   <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
-//                 </div>
-                
-//                 <div className="relative group4">
-//                   <select 
-//                     name="service"
-//                     value={formData.service}
-//                     onChange={handleChange}
-//                     required
-//                     className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-gray-600 focus:text-white focus:outline-none focus:border-brand-blue transition-colors appearance-none cursor-pointer peer"
-//                   >
-//                     <option value="" disabled hidden>Select Service</option>
-//                     <option value="residential" className="bg-[#121212] text-white">Residential Design</option>
-//                     <option value="commercial" className="bg-[#121212] text-white">Commercial Space</option>
-//                     <option value="turnkey" className="bg-[#121212] text-white">Turnkey Execution</option>
-//                     <option value="consultation" className="bg-[#121212] text-white">Design Consultation</option>
-//                   </select>
-//                   <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
-//                 </div>
-//               </div>
-
-//               <div className="relative group5">
-//                 <textarea 
-//                   name="message"
-//                   value={formData.message}
-//                   onChange={handleChange}
-//                   required
-//                   rows="4"
-//                   placeholder="Tell us about your project..." 
-//                   className="w-full bg-transparent border-b border-white/20 py-3 text-[15px] text-white focus:outline-none focus:border-brand-blue transition-colors placeholder-gray-600 resize-none peer"
-//                 />
-//                 <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
-//               </div>
-
-//               <button 
-//                 type="submit" 
-//                 disabled={isSubmitting || isSubmitted}
-//                 className={`group relative flex items-center justify-center gap-3 w-full md:w-auto md:self-start px-10 py-4 rounded-full text-[12px] font-bold tracking-[0.2em] uppercase transition-all duration-500 overflow-hidden border ${
-//                   isSubmitted 
-//                     ? 'bg-green-500/10 border-green-500 text-green-400 cursor-default' 
-//                     : 'bg-white/5 border-white/20 text-white hover:bg-brand-blue hover:border-brand-blue hover:shadow-[0_15px_30px_rgba(67,24,255,0.3)] hover:-translate-y-1'
-//                 }`}
-//               >
-//                 {!isSubmitted && (
-//                   <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 z-0" />
-//                 )}
-                
-//                 <span className="relative z-10">
-//                   {isSubmitting ? 'Sending...' : isSubmitted ? 'Message Sent' : 'Send Message'}
-//                 </span>
-                
-//                 <div className="relative z-10">
-//                   {isSubmitting ? (
-//                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-//                   ) : isSubmitted ? (
-//                     <CheckCircle2 className="w-4 h-4" />
-//                   ) : (
-//                     <Send className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
+//                 <button 
+//                   type="submit" 
+//                   disabled={isSubmitting || isSubmitted}
+//                   className={`group relative flex items-center justify-center gap-3 w-full md:w-auto md:self-start px-10 py-4 rounded-full text-[12px] font-bold tracking-[0.2em] uppercase transition-all duration-500 overflow-hidden border ${
+//                     isSubmitted 
+//                       ? 'bg-green-500/10 border-green-500 text-green-400 cursor-default' 
+//                       : 'bg-white/5 border-white/20 text-white hover:bg-brand-blue hover:border-brand-blue hover:shadow-[0_15px_30px_rgba(67,24,255,0.3)] hover:-translate-y-1'
+//                   }`}
+//                 >
+//                   {!isSubmitted && (
+//                     <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 z-0" />
 //                   )}
-//                 </div>
-//               </button>
-
-//             </form>
+                  
+//                   <span className="relative z-10">
+//                     {isSubmitting ? 'Sending...' : isSubmitted ? 'Message Sent' : 'Send Message'}
+//                   </span>
+                  
+//                   <div className="relative z-10">
+//                     {isSubmitting ? (
+//                       <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+//                     ) : isSubmitted ? (
+//                       <CheckCircle2 className="w-4 h-4" />
+//                     ) : (
+//                       <Send className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" />
+//                     )}
+//                   </div>
+//                 </button>
+//               </form>
+//             ) : (
+//               <div className="h-[400px] flex items-center justify-center">
+//                  <div className="w-6 h-6 border-2 border-brand-blue/30 border-t-brand-blue rounded-full animate-spin" />
+//               </div>
+//             )}
 //           </div>
 //         </motion.div>
 

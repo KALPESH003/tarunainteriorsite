@@ -58,7 +58,7 @@ export default function RootLayout({ children }) {
           selection:bg-brand-blue 
           selection:text-white 
           antialiased
-        `}
+        `}suppressHydrationWarning
       >
         {/* The Navbar will sit at the top of every single page */}
         <Navbar />
