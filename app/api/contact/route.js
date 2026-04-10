@@ -23,7 +23,7 @@ export async function POST(req) {
       );
     }
 
-    // 4. Save to MongoDB 
+   // 4. Save to MongoDB 
     let newInquiry;
     try {
       newInquiry = await Inquiry.create({
@@ -34,8 +34,11 @@ export async function POST(req) {
           projectVision: finalVision 
       });
     } catch (dbError) {
+      // THIS IS THE HACK: We are sending the exact error message to the frontend
       console.error("Database Save Failed:", dbError);
-      return NextResponse.json({ message: "Failed to save inquiry to database." }, { status: 500 });
+      return NextResponse.json({ 
+        message: "DB ERROR: " + dbError.message 
+      }, { status: 500 });
     }
 
     // 5. Send Email via Resend API (Lightning Fast)
