@@ -100,7 +100,8 @@ export async function POST(req) {
 
   } catch (error) {
     console.error("CRITICAL BACKEND ERROR:", error);
-    return NextResponse.json({ message: "Internal Error", error: error.message }, { status: 500 });
+    // Let's force the frontend to display the ACTUAL error message
+    return NextResponse.json({ message: "DB CRASH: " + error.message }, { status: 500 });
   }
 }
 
