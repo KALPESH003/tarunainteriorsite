@@ -1,6 +1,6 @@
 // app/admin/inquiries/page.js
 import React from 'react';
-import { connectToDatabase } from '@/lib/mongodb';
+import { connectToDatabase } from '@/lib/dbConnect';
 import Inquiry from '@/models/Inquiry';
 import { Mail, Phone, Calendar } from 'lucide-react';
 
