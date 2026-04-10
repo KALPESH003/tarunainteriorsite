@@ -86,24 +86,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 4: Newsletter Form */}
-          <div className="lg:col-span-3 flex flex-col">
-            <h4 className="text-white text-[11px] font-bold tracking-[0.3em] uppercase mb-8">The Insider</h4>
-            <p className="text-[13px] mb-6 font-light">Join our elite list for quarterly design inspirations.</p>
-            <form className="relative group" onSubmit={(e) => e.preventDefault()}>
-              <input 
-                type="email" 
-                required
-                placeholder="Email Address" 
-                className="w-full bg-white/5 border-b border-white/10 py-3 text-[13px] text-white focus:outline-none focus:border-brand-blue transition-all peer" 
-              />
-              <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-brand-blue transition-all duration-500 peer-focus:w-full" />
-              <button type="submit" className="absolute right-0 bottom-3 text-brand-blue hover:text-white transition-colors transform hover:translate-x-1 hover:-translate-y-1">
-                <Send className="w-5 h-5" />
-              </button>
-            </form>
-          </div>
-
         </div>
 
         {/* Watermark Logo */}
