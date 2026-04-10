@@ -32,7 +32,6 @@ export default function ContactForm() {
     setError(null);
 
     try {
-      // Connecting to your route.js
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -43,16 +42,27 @@ export default function ContactForm() {
           email: formData.email,
           phone: formData.phone,
           service: formData.service,
-          projectVision: formData.message, // Mapping 'message' to 'projectVision' in your schema
+          message: formData.message, 
         }),
       });
 
-      const result = await response.json();
+      // 1. Read the response as raw text first
+      const textResponse = await response.text();
 
+      // 2. Try to parse it as JSON
+      let result;
+      try {
+        result = JSON.parse(textResponse);
+      } catch (parseError) {
+        // If it fails to parse (meaning it's HTML), log it so we can see the real error
+        console.error("Server returned HTML instead of JSON. Raw response:", textResponse);
+        throw new Error("Server configuration error. Check terminal.");
+      }
+
+      // 3. Handle the actual result
       if (response.ok) {
         setIsSubmitted(true);
         setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-        // Reset success state after 5 seconds
         setTimeout(() => setIsSubmitted(false), 5000);
       } else {
         throw new Error(result.message || 'Something went wrong');

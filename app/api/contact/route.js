@@ -135,7 +135,7 @@ export async function POST(req) {
 //     await transporter.sendMail({
 //       from: `"Taruna Interiors Bot" <${process.env.EMAIL_USER}>`,
 //       to: "your-personal-email@gmail.com", // Ensure your email is here
-//       subject: `✨ New Luxury Inquiry: ${body.name}`,
+//       subject: `New Luxury Inquiry: ${body.name}`,
 //       html: `
 //         <div style="font-family: serif; padding: 20px;">
 //           <h2>New Inquiry</h2>
