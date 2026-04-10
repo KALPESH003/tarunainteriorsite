@@ -1,36 +1,24 @@
-'use server';
-  
-import { connectToDatabase } from '@/lib/mongodb';
-import Inquiry from '@/models/Inquiry';
-import { revalidatePath } from 'next/cache';
+"use server";
+import dbConnect from "@/lib/dbConnect"; // Ensure you have a db connection utility
+import Inquiry from "@/models/Inquiry";
 
-export async function submitInquiry(prevState, formData) {
+export async function submitContactForm(formData) {
   try {
-    // 1. Connect to the real database
-    await connectToDatabase();
+    await dbConnect();
 
-    // 2. Extract and validate data
-    const newInquiryData = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      projectType: formData.get('projectType'),
-      message: formData.get('message'),
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      projectVision: formData.get("projectVision"),
     };
 
-    if (!newInquiryData.name || !newInquiryData.email || !newInquiryData.message) {
-      return { success: false, message: 'Please fill out all required fields.' };
-    }
+    // Save to MongoDB
+    const newInquiry = await Inquiry.create(data);
 
-    // 3. Create a new document in MongoDB
-    await Inquiry.create(newInquiryData);
-
-    // 4. Tell the Admin panel to refresh its data
-    revalidatePath('/admin/inquiries');
-
-    return { success: true, message: 'Your inquiry has been received. Our team will contact you shortly.' };
+    return { success: true, message: "Inquiry sent successfully!" };
   } catch (error) {
     console.error("Database Error:", error);
-    return { success: false, message: 'An error occurred. Please try again.' };
+    return { success: false, message: "Something went wrong. Please try again." };
   }
 }
