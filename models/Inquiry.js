@@ -7,10 +7,9 @@ const InquirySchema = new mongoose.Schema({
   service: { type: String },
   projectVision: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-}, 
-{ 
-  collection: 'contacts' // This ensures it uses your specific collection
+}, { 
+  // This is the "magic line" that connects to your specific collection
+  collection: 'contacts' 
 });
 
-// Important: This check prevents "OverwriteModelError"
 export default mongoose.models.Inquiry || mongoose.model('Inquiry', InquirySchema);
