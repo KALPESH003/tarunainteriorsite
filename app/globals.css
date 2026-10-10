@@ -2,8 +2,8 @@
 
 @theme {
   /* ================= BRAND COLORS ================= */
-  --color-brand-blue: #4318FF;
-  --color-brand-red: #FF2A2A;
+  --color-brand-blue: #0138FF;
+  --color-brand-orange: #FF5C05;
   --color-brand-dark: #121212;
   --color-brand-gray: #8a8a8a;
   --color-brand-light: #fafafa;
@@ -60,7 +60,7 @@ html {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #4318FF;
+  background: #FF5C05;
 }
 
 /* ================= UTILITY CLASSES ================= */
