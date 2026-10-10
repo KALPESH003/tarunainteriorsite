@@ -42,10 +42,10 @@ const MAP_HREF = `https://www.google.com/maps/search/?api=1&query=${encodeURICom
 
 // Replace with your real profile URLs
 const SOCIALS = [
-  { label: 'Instagram', href: 'https://instagram.com' },
+  { label: 'Instagram', href: 'https://instagram.com/taruna_interior' },
   { label: 'YouTube', href: 'https://youtube.com' },
   { label: 'LinkedIn', href: 'https://linkedin.com' },
-  { label: 'Facebook', href: 'https://facebook.com' },
+  { label: 'Facebook', href: 'https://facebook.com/punamchand.suthar.520' },
 ];
 
 /* ------------------------------------------------------------------ */

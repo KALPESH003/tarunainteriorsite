@@ -12,7 +12,7 @@ export const SITE = {
     country: 'IN',
   },
   socials: [
-    'https://www.instagram.com/taruna_interior/',
+    'https://instagram.com/taruna_interior/',
     'https://youtube.com/@your-handle',
     'https://linkedin.com/company/taruna-interior-gallery',
     'https://facebook.com/punamchand.suthar.520',
