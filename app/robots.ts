@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { SITE } from '@/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
-  // Vercel preview URLs must never be indexed
+  // Netlify preview URLs must never be indexed
   if (process.env.CONTEXT && process.env.CONTEXT !== 'production') {
     return { rules: { userAgent: '*', disallow: '/' } };
   }
