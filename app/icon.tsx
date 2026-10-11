@@ -2,7 +2,7 @@
 import { ImageResponse } from 'next/og'
  
 export const size = { width: 32, height: 32 }
-export const contentType = 'image/Union.png'
+export const contentType = '/og-image.jpg'
  
 export default function Icon() {
   return new ImageResponse(
