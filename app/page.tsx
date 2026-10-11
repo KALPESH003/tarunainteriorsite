@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import JsonLd from '@/components/JsonLd';
 import { SITE } from '@/lib/site';
 
@@ -8,9 +9,14 @@ import Stats from '@/components/Stats';
 import Portfolioscroll from '@/components/Portfolio';
 import Process from '@/components/process';
 import Testimonials from '@/components/Testimonials';
-import QualityCheck from '@/components/Materials'; 
+import QualityCheck from '@/components/Materials';
 import Packages from '@/components/package';
 import TextMaskScroll from '@/components/TextMaskScroll';
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+  openGraph: { url: '/' },
+};
 
 const schema = {
   '@context': 'https://schema.org',
@@ -33,13 +39,10 @@ const schema = {
   sameAs: SITE.socials,
 };
 
-// inside the page component's JSX:
-// <JsonLd data={schema} />
-
-
 export default function Home() {
   return (
-    <main className="relative bg-[#0a0a0a] min-h-screen flex flex-col">
+    <div className="relative flex min-h-screen flex-col bg-[#0a0a0a]">
+      <JsonLd data={schema} />
 
       <Hero />
       <About />
@@ -51,7 +54,6 @@ export default function Home() {
       <QualityCheck />
       <Packages />
       <TextMaskScroll />
-
-    </main>
+    </div>
   );
 }

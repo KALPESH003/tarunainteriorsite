@@ -16,7 +16,7 @@ const playfair = Playfair_Display({
   display: 'swap',
 });
 
-const TITLE = 'Interior Designers in Vadodara | Taruna Interior Gallery';
+const TITLE = 'Interior Designer in Vadodara | Taruna Interior Gallery';
 const OG_DESCRIPTION =
   'Redefining the art of living through bespoke interior solutions: residential, retail and commercial interiors in Vadodara and across India.';
 
@@ -30,25 +30,25 @@ export const metadata: Metadata = {
     'Designing spaces that reflect you. Elegant, functional interiors crafted with precision, creativity, and a profound understanding of modern luxury living.',
   applicationName: SITE.name,
   keywords: [
-    'Taruna Interior Gallery',
     'Taruna Interiors',
+    'Taruna Interior Gallery',
+    'Interior designer in Vadodara',
+    'Interior designers in Vadodara',
     'Best interior designers in Vadodara',
     'Top interior designers in Vadodara',
     'Luxury interior design',
     'Turnkey interiors',
     'Bespoke design',
   ],
-  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     siteName: SITE.name,
     locale: 'en_IN',
-    url: '/',
     title: TITLE,
     description: OG_DESCRIPTION,
     images: [
       {
-        url: '/og-image.jpg', // file must exist at public/og-image.jpg (1200x630)
+        url: '/og-image.png', // file must exist at public/og-image.png (1200x630)
         width: 1200,
         height: 630,
         alt: 'Taruna Interior Gallery: luxury interior design in Vadodara',
