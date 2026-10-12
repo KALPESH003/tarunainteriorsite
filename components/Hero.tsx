@@ -514,12 +514,12 @@ export default function Hero() {
             </motion.ul>
 
          <button
-  type="button"
-  onClick={() => setContactOpen(true)}
-  aria-haspopup="dialog"
-  aria-label="Open contact form"
-  className="group flex items-stretch h-[44px] mr-[1px] rounded-[10px] bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
->
+            type="button"
+            onClick={() => setContactOpen(true)}
+            aria-haspopup="dialog"
+            aria-label="Open contact form"
+            className="group flex items-stretch h-[44px] mr-[1px] rounded-[10px] bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          >
                 {/* Left Section: Text */}
                 <span className="flex items-center px-[18px] text-[14px] font-medium uppercase text-white transition-colors">
                   Contact
@@ -656,6 +656,9 @@ export default function Hero() {
     </>
   );
 }
+
+
+
 
 
 

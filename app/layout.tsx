@@ -66,6 +66,10 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
+  // Added standard alternative metadata properties for crawler verification
+  other: {
+    'site-name': SITE.name,
+  },
 };
 
 export const viewport: Viewport = {
@@ -75,8 +79,23 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Generate explicit JSON-LD for Google to force the Site Name display
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'name': SITE.name,
+    'url': SITE.url,
+  };
+
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        {/* Inject Structured Data directly into head */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${playfair.variable} flex min-h-screen flex-col bg-[#0a0a0a] font-sans text-white antialiased selection:bg-brand-orange selection:text-white`}
         suppressHydrationWarning
