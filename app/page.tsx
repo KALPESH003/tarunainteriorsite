@@ -24,6 +24,7 @@ const schema = {
   name: SITE.name,
   url: SITE.url,
   logo: `${SITE.url}/icon-512.png`,
+  shortcut: `${SITE.url}/favicon.ico`,
   image: `${SITE.url}/og-image.png`,
   description: SITE.description,
   email: SITE.email,
